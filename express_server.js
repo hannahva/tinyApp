@@ -13,7 +13,6 @@ const urlDatabase = {
 };
 
 
-
 app.get("/", (request, response) => {
   response.end("Hello!");
 });
@@ -51,3 +50,11 @@ app.post("/urls", (request, response) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+
+
+
+const generateRandomString = () => {
+  return Math.random().toString(36).substr(2, 6);
+};
+
