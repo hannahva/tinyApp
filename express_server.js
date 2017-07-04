@@ -22,7 +22,14 @@ app.get("/urls.json", (request, response) =>{
 app.get("/urls", (request, response) => {
   let templateVars = { urls: urlDatabase};
   response.render("urls_index", templateVars);
-})
+});
+app.get("/urls/:id", (request, response) => {
+  let templateVars = {
+    shortUrl: request.params.id,
+    urls: urlDatabase
+  };
+  response.render("urls_show", templateVars);
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);

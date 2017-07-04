@@ -8,11 +8,8 @@
   <header>
     <% include  ./partials/_header %>
   </header>
+   <li><%= urls[shortUrl] + ": " + shortUrl %></li>
 
-  <% for(var url in urls){ %>
-      <li><%= urls[url] + ": " + url %></li>
-   <% } %>
-   <a href="">Shorten a link!</a>
 </body>
 <footer>
 </footer>
