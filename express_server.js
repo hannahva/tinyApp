@@ -43,8 +43,10 @@ app.get("/hello", (request, response) => {
 });
 
 app.post("/urls", (request, response) => {
-  console.log(request.body.longURL);
-  response.send("Ok");
+  const longURL = request.body.longURL;
+  const shortURL = generateRandomString();
+  urlDatabase[shortURL] = longURL;
+  response.redirect(`/urls/${shortURL}`);
 });
 
 app.listen(PORT, () => {
