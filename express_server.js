@@ -43,7 +43,7 @@ app.get("/hello", (request, response) => {
 });
 
 app.post("/urls", (request, response) => {
-  console.log(request.body);
+  console.log(request.body.longURL);
   response.send("Ok");
 });
 
