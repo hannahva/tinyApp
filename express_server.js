@@ -17,8 +17,8 @@ app.get("/", (request, response) => {
   response.end("Hello!");
 });
 
-app.get("/hello", (request, response) => {
-  response.end("<html><body>Hello <b>World</b></body></html>\n");
+app.get("/urls/new", (request, response) => {
+  response.render("urls_new");
 })
 
 app.get("/urls.json", (request, response) =>{
@@ -38,8 +38,8 @@ app.get("/urls/:id", (request, response) => {
   response.render("urls_show", templateVars);
 });
 
-app.get("/urls/new", (request, response) => {
-  response.render("urls_new");
+app.get("/hello", (request, response) => {
+  response.end("<html><body>Hello <b>World</b></body></html>\n");
 });
 
 app.post("/urls", (request, response) => {
@@ -58,3 +58,4 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2, 6);
 };
 
+generateRandomString();
