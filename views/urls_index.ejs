@@ -11,6 +11,7 @@
 
   <% for(var url in urls){ %>
       <li><%= urls[url] + ": " + url %></li>
+      <a href="http://localhost:8080/urls/<%= url %>">Edit</a> <!-- redirects to editing page -->
       <form method="POST" action="/urls/<%= url %>/delete">
         <button type="submit">Delete This URL</button>
       </form>

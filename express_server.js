@@ -52,6 +52,7 @@ app.get("/urls/:id", (request, response) => {
   response.render("urls_show", templateVars);
 });
 
+//resets where short url points (ie corresponding long url)
 app.post("/urls/:id", (request, response) => {
     let longURL = addHTTP(request.body.longURL);
     urlDatabase[request.params.id] = longURL;
