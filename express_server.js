@@ -28,7 +28,7 @@ app.get("/urls.json", (request, response) =>{
   response.json(urlDatabase);
 });
 
-//list of shortened and their corresponding long Urls
+//list of all shortened and their corresponding long Urls
 //urls_index.ejs - displays link to shorten a url (DEAD)
 app.get("/urls", (request, response) => {
   let templateVars = { urls: urlDatabase};
@@ -49,11 +49,12 @@ app.get("/hello", (request, response) => {
   response.end("<html><body>Hello <b>World</b></body></html>\n");
 });
 
-//after creation of shortURL, redirect to page
-//with shortURL in address
+//after creation of shortURL, stores info
+//and redirects to page with shortURL in address
 app.post("/urls", (request, response) => {
-  const longURL = request.body.longURL;
+  let longURL = request.body.longURL;
   const shortURL = generateRandomString();
+  if(longURL !== /^https?: \/\//) {longURL = `https://${longURL}`};
   urlDatabase[shortURL] = longURL;
   response.redirect(`/urls/${shortURL}`);
 });
