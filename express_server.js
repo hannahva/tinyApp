@@ -35,6 +35,13 @@ app.get("/urls", (request, response) => {
   response.render("urls_index", templateVars);
 });
 
+//post route that removes a URL resource
+//and redirects to modified /urls
+app.post("/urls/:id/delete", (request, response) => {
+  delete urlDatabase[request.params.id];
+  response.redirect("/urls");
+})
+
 //specific to unique id, displays that id's
 //short and long URL
 app.get("/urls/:id", (request, response) => {
@@ -50,7 +57,8 @@ app.get("/hello", (request, response) => {
 });
 
 //after creation of shortURL, stores info
-//and redirects to page with shortURL in address
+//and redirects to page with shortURL in address.
+//adds explicit protocol if implicit protocol given
 app.post("/urls", (request, response) => {
   let longURL = request.body.longURL;
   const shortURL = generateRandomString();
