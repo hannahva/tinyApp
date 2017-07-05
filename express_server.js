@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8080; // default port 8080
-const cookieParser = require("cookie-parser");
+
 //template engine
 app.set("view engine", "ejs");
+
+const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 const bodyParser = require("body-parser");
@@ -20,8 +22,11 @@ app.get("/", (request, response) => {
   response.end("Hello!");
 });
 
+//post request for login process
 app.post("/login", (request, response) => {
+  // response.cookie("username",  )
 
+  response.redirect("/urls");
 });
 
 // has to be above other urls/... pages to not
