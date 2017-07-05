@@ -5,9 +5,23 @@
 
   <h3>Welcome to TinyApp!</h3>
 
-  <form method="POST" action="/login">
+<% if (username === undefined) { %>
+ <!-- login form -->
+  <form method="POST" action="/login" style="display: inline" >
     <input id="username" type="text" name="username" placeholder="Username" style="width: 150px">
     <input type="submit" value="Submit">
   </form>
-  <h5><%= username %></h5>
+ <% } %>
+
+<% if (username) { %>
+ <!-- logout form -->
+ <%= username %> &nbsp
+  <form method="POST" action="/logout" style="display: inline" >
+    <input type="submit" value="Logout">
+  </form>
+
+<% } %>
+
+
+
 

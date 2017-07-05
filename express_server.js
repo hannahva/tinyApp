@@ -22,13 +22,18 @@ app.get("/", (request, response) => {
   response.end("Hello!");
 });
 
-//post request for login process
+//post request for LOGIN process
 app.post("/login", (request, response) => {
   let username = request.body.username
   response.cookie("username", username);
   response.redirect("/urls");
 });
 
+//post request for LOGOUT process
+app.post("/logout", (request, response) => {
+  response.clearCookie("username");
+  response.redirect("/urls");
+})
 // has to be above other urls/... pages to not
 //get treated as /:id or /:shortURL by LocalHost
 app.get("/urls/new", (request, response) => {

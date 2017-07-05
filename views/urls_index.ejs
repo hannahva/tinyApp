@@ -10,15 +10,16 @@
   </header>
 
   <% for(var url in urls){ %>
-      <li><%= urls[url] + ": " + url %></li>
+    <li><%= urls[url] + ": " + url %>
       <a href="/urls/<%= url %>">Edit</a> <!-- redirects to editing page -->
-      <form method="POST" action="/urls/<%= url %>/delete">
+      <form method="POST" action="/urls/<%= url %>/delete" style="display: inline" >
         <button type="submit">Delete This URL</button>
       </form>
-   <% } %>
-   <form action="/urls/new">
+    </li>
+  <% } %>
+  <form action="/urls/new">
     <input type="submit" value="Shorten A New Link!" />
-</form>
+  </form>
 <footer>
 </footer>
 </html>
