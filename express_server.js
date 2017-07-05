@@ -24,15 +24,18 @@ app.get("/", (request, response) => {
 
 //post request for login process
 app.post("/login", (request, response) => {
-  // response.cookie("username",  )
-
+  let username = request.body.username
+  response.cookie("username", username);
   response.redirect("/urls");
 });
 
 // has to be above other urls/... pages to not
 //get treated as /:id or /:shortURL by LocalHost
 app.get("/urls/new", (request, response) => {
-  response.render("urls_new"); //form to submit link to shorten
+  let templateVars = {
+    username: request.cookies["username"]
+  }
+  response.render("urls_new", templateVars); //form to submit link to shorten
 })
 
 app.get("/urls.json", (request, response) =>{
@@ -42,7 +45,10 @@ app.get("/urls.json", (request, response) =>{
 //list of all shortened and their corresponding long Urls
 //urls_index.ejs - displays link to shorten a url (DEAD)
 app.get("/urls", (request, response) => {
-  let templateVars = { urls: urlDatabase};
+  let templateVars = {
+    urls: urlDatabase,
+    username: request.cookies["username"]
+  };
   response.render("urls_index", templateVars);
 });
 
@@ -58,7 +64,8 @@ app.post("/urls/:id/delete", (request, response) => {
 app.get("/urls/:id", (request, response) => {
   let templateVars = {
     shortUrl: request.params.id,
-    urls: urlDatabase
+    urls: urlDatabase,
+    username: request.cookies["username"]
   };
   response.render("urls_show", templateVars);
 });
@@ -98,7 +105,7 @@ app.listen(PORT, () => {
 //checks for implicit/explicit protocols on input
 //and adds if missing
 const addHTTP = (givenURL) => {
-  if(givenURL !== /^https?: \/\//) {givenURL = `https://${longURL}`};
+  if(givenURL !== /^https?: \/\//) {givenURL = `https://${givenURL}`};
   return givenURL;
 };
 
