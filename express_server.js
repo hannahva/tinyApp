@@ -52,17 +52,21 @@ app.get("/urls/:id", (request, response) => {
   response.render("urls_show", templateVars);
 });
 
+app.post("/urls/:id", (request, response) => {
+    let longURL = addHTTP(request.body.longURL);
+    urlDatabase[request.params.id] = longURL;
+    response.redirect("/urls");
+});
+
 app.get("/hello", (request, response) => {
   response.end("<html><body>Hello <b>World</b></body></html>\n");
 });
 
 //after creation of shortURL, stores info
 //and redirects to page with shortURL in address.
-//adds explicit protocol if implicit protocol given
 app.post("/urls", (request, response) => {
-  let longURL = request.body.longURL;
+  let longURL = addHTTP(request.body.longURL);
   const shortURL = generateRandomString();
-  if(longURL !== /^https?: \/\//) {longURL = `https://${longURL}`};
   urlDatabase[shortURL] = longURL;
   response.redirect(`/urls/${shortURL}`);
 });
@@ -79,10 +83,17 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+//checks for implicit/explicit protocols on input
+//and adds if missing
+const addHTTP = (givenURL) => {
+  if(givenURL !== /^https?: \/\//) {givenURL = `https://${longURL}`};
+  return givenURL;
+};
 
-
+//creates short id's for given urls
 const generateRandomString = () => {
   return Math.random().toString(36).substr(2, 6);
 };
 
 generateRandomString();
+
