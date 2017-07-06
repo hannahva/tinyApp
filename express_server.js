@@ -48,13 +48,17 @@ app.get("/login", (request, response) => {
 app.post("/login", (request, response) => {
   const email = request.body.email;
   const password = request.body.password;
-  const Id = getIdByEmail(email);
+  const id = getIdByEmail(email);
 
-  let userEmail = getUsernameById(request.cookies["user_id"]);
-  let templateVars = {
-    userEmail: userEmail
+  if (!checkUserEmail(email)) {
+    response.status(403).send("Sorry, email or password incorrect");
+    return;
+  } else if {
+
   }
-  response.redirect("/urls", templateVars);
+
+
+  response.redirect("/");
 });
 
 //post request for LOGOUT process
@@ -149,6 +153,7 @@ app.get("/register", (request, response) => {
 app.post("/register", (request, response) => {
   if (checkUserEmail(request.body.email)) {
     response.status(400).send("Email already exists");
+    return;
   } else if (request.body.email && request.body.password){
   let newUser = {
     id: generateRandomString(),
@@ -198,6 +203,16 @@ const checkUserEmail = (givenEmail) => {
   };
   return false;
 };
+
+//check if password matches password linked to that email
+const checkPassword = (givenEmail, givenPW) => {
+  for(user in users){
+    if(users[getIdByEmail(givenEmail)].password === givenPW){
+      return true;
+    }
+  }
+  return false;
+}
 
 
 //checks for implicit/explicit protocols on input
