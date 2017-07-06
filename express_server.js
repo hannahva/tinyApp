@@ -13,8 +13,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    userID: "userRandomID"
+  },
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    userID: "user2RandomID"
+  }
 };
 
 const users = {
@@ -122,7 +128,7 @@ app.get("/urls/:id", (request, response) => {
 //resets where short url points (ie corresponding long url)
 app.post("/urls/:id", (request, response) => {
     let longURL = addHTTP(request.body.longURL);
-    urlDatabase[request.params.id] = longURL;
+    urlDatabase[request.params.id].longURL = longURL;
     response.redirect("/urls");
 });
 
@@ -135,13 +141,16 @@ app.get("/hello", (request, response) => {
 app.post("/urls", (request, response) => {
   let longURL = addHTTP(request.body.longURL);
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL] = {
+    longURL: longURL,
+    userID: request.cookies["user_id"]
+  };
   response.redirect(`/urls/${shortURL}`);
 });
 
 //shortened URL will redirect to its corresponding longURL
 app.get("/u/:shortURL", (request, response) => {
-  let longURL = urlDatabase[request.params.shortURL];
+  let longURL = urlDatabase[request.params.shortURL].longURL;
   response.redirect(longURL);
 
 })

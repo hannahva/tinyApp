@@ -4,16 +4,17 @@
 <head>
   <title>TinyApp</title>
 </head>
-<body>
-  <header>
-    <% include  ./partials/_header %>
-  </header>
-   <h2><%= "shortUrl" + ": " + shortUrl %></h2>
-   <form action="" method="POST">
-    <input id="longURL" type="text" name="longURL" value="<%= urls[shortUrl] %>" style="width: 300px">
-    <input type="submit" value="Update">
-  </form>
-</body>
+  <body>
+    <header>
+      <% include  ./partials/_header %>
+    </header>
+     <h2><%= "shortUrl" + ": " + shortUrl %></h2>
+     <form action="" method="POST">
+      <input id="longURL" type="text" name="longURL" value="<%= urls[shortUrl].longURL %>" style="width: 300px">
+      <input type="submit" value="Update">
+    </form>
+
+  </body>
 <footer>
 </footer>
 </html>
