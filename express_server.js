@@ -17,6 +17,10 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+const users = {
+
+}
+
 
 app.get("/", (request, response) => {
   response.end("Hello!");
@@ -101,6 +105,13 @@ app.get("/u/:shortURL", (request, response) => {
   response.redirect(longURL);
 
 })
+
+app.get("/register", (request, response) => {
+  let templateVars = {
+    username: request.body.username
+  }
+  response.render("register", templateVars);
+});
 
 //8080
 app.listen(PORT, () => {
