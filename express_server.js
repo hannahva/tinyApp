@@ -77,7 +77,11 @@ app.get("/urls/new", (request, response) => {
   let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
     userEmail: userEmail
-  }
+  };
+  if (templateVars.userEmail === undefined){
+    response.redirect("/login");
+    return;
+  };
   response.render("urls_new", templateVars); //form to submit link to shorten
 })
 
