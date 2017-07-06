@@ -11,7 +11,7 @@
   </header>
 
   <% for (var url in urls){ %>
-    <% if (urls[url].userID === cookie) { %>
+
 
     <li><%= `${urls[url].longURL} : ${url}` %>&nbsp&nbsp
       <a href="/urls/<%= url %>">Edit</a> <!-- redirects to editing page -->
@@ -19,7 +19,7 @@
         <button type="submit">Delete This URL</button>
       </form>
     </li>
-    <% } %>
+
   <% } %>
   &nbsp
 

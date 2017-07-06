@@ -201,13 +201,24 @@ app.listen(PORT, () => {
 });
 
 
+const urlsForUser = (id) => {
+  const output = {};
+  for (url in urlDatabase){
+      if(urlDatabase[url].userID === id){
+        output[url] = urlDatabase[url];
+      };
+  };
+  return output;
+}
+
+//gets id associated with given email
 const getIdByEmail = (email) => {
   let id = undefined;
   for (user in users){
     if(users[user].email === email){
       id = user;
-    }
-  }
+    };
+  };
   return id;
 }
 
@@ -216,7 +227,7 @@ const getUsernameById = (userID) => {
   let user = users[userID];
   if (!user){
     return;
-  }
+  };
   return user.email;
 };
 
