@@ -46,9 +46,15 @@ app.get("/login", (request, response) => {
 
 //post request for LOGIN process
 app.post("/login", (request, response) => {
-  let username = request.body.username
-  response.cookie("username", username);
-  response.redirect("/urls");
+  const email = request.body.email;
+  const password = request.body.password;
+  const Id = getIdByEmail(email);
+
+  let userEmail = getUsernameById(request.cookies["user_id"]);
+  let templateVars = {
+    userEmail: userEmail
+  }
+  response.redirect("/urls", templateVars);
 });
 
 //post request for LOGOUT process
@@ -161,6 +167,17 @@ app.post("/register", (request, response) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+
+const getIdByEmail = (email) => {
+  let id = undefined;
+  for (user in users){
+    if(users[user].email === email){
+      id = user;
+    }
+  }
+  return id;
+}
 
 //
 const getUsernameById = (userID) => {
