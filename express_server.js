@@ -123,7 +123,13 @@ app.get("/register", (request, response) => {
   response.render("register", templateVars);
 });
 
+//adds new user to user object
+//sets cookie with new user id
+//checks if user email already exists
 app.post("/register", (request, response) => {
+  if (checkUserEmail(request.body.email)) {
+    response.status(400).send("Email already exists");
+  } else if (request.body.email && request.body.password){
   let newUser = {
     id: generateRandomString(),
     email: request.body.email,
@@ -132,12 +138,27 @@ app.post("/register", (request, response) => {
   users[newUser.id] = newUser;
   response.cookie("user_id", newUser.id);
   response.redirect("/urls");
-})
+  } else {
+     response.status(400).send("Both Password and Email field must be filled out");
+  };
+});
 
 //8080
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+//check if user email already exists
+const checkUserEmail = (givenEmail) => {
+  for(user in users) {
+    if (users[user].email === givenEmail){
+      return true;
+    };
+  };
+  return false;
+};
+
+
 
 //checks for implicit/explicit protocols on input
 //and adds if missing
