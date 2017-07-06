@@ -109,8 +109,12 @@ app.get("/urls", (request, response) => {
 //post route that removes a URL resource
 //and redirects to modified /urls
 app.post("/urls/:id/delete", (request, response) => {
-  delete urlDatabase[request.params.id];
-  response.redirect("/urls");
+  if (urlDatabase[request.params.id].userID === request.cookies["user_id"]){
+     delete urlDatabase[request.params.id];
+     response.redirect("/urls");
+  } else {
+     response.status(400).send("You do not have permission to delete that URL.")
+  };
 })
 
 //specific to unique id, displays that id's
@@ -129,7 +133,11 @@ app.get("/urls/:id", (request, response) => {
 app.post("/urls/:id", (request, response) => {
     let longURL = addHTTP(request.body.longURL);
     urlDatabase[request.params.id].longURL = longURL;
-    response.redirect("/urls");
+    if (urlDatabase[request.params.id].userID === request.cookies["user_id"]){
+        response.redirect("/urls");
+    } else {
+      response.status(400).send("You do not have permission to edit that URL.")
+    };
 });
 
 app.get("/hello", (request, response) => {
