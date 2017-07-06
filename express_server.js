@@ -53,8 +53,12 @@ app.post("/login", (request, response) => {
   if (!checkUserEmail(email)) {
     response.status(403).send("Sorry, email or password incorrect");
     return;
-  } else if {
-
+  } else if (!checkPassword(email, password)){
+    response.status(403).send("Sorry, email or password incorrect");
+    return;
+  } else {
+    response.cookie("user_id", id);
+    response.redirect("/");
   }
 
 
@@ -63,7 +67,7 @@ app.post("/login", (request, response) => {
 
 //post request for LOGOUT process
 app.post("/logout", (request, response) => {
-  response.clearCookie("username");
+  response.clearCookie("user_id");
   response.redirect("/urls");
 })
 
