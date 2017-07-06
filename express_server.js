@@ -35,6 +35,15 @@ app.get("/", (request, response) => {
   response.end("Hello!");
 });
 
+//
+app.get("/login", (request, response) => {
+  let userEmail = getUsernameById(request.cookies["user_id"]);
+  let templateVars = {
+    userEmail: userEmail
+  }
+  response.render("login", templateVars);
+});
+
 //post request for LOGIN process
 app.post("/login", (request, response) => {
   let username = request.body.username
@@ -47,11 +56,13 @@ app.post("/logout", (request, response) => {
   response.clearCookie("username");
   response.redirect("/urls");
 })
+
 // has to be above other urls/... pages to not
 //get treated as /:id or /:shortURL by LocalHost
 app.get("/urls/new", (request, response) => {
+  let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
-    username: request.cookies["username"]
+    userEmail: userEmail
   }
   response.render("urls_new", templateVars); //form to submit link to shorten
 })
@@ -63,9 +74,10 @@ app.get("/urls.json", (request, response) =>{
 //list of all shortened and their corresponding long Urls
 //urls_index.ejs - displays link to shorten a url (DEAD)
 app.get("/urls", (request, response) => {
+  let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
     urls: urlDatabase,
-    username: request.cookies["username"]
+    userEmail: userEmail
   };
   response.render("urls_index", templateVars);
 });
@@ -80,10 +92,11 @@ app.post("/urls/:id/delete", (request, response) => {
 //specific to unique id, displays that id's
 //short and long URL
 app.get("/urls/:id", (request, response) => {
+  let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
     shortUrl: request.params.id,
     urls: urlDatabase,
-    username: request.cookies["username"]
+    userEmail: userEmail
   };
   response.render("urls_show", templateVars);
 });
@@ -117,8 +130,9 @@ app.get("/u/:shortURL", (request, response) => {
 
 //registration page with email and password fields
 app.get("/register", (request, response) => {
+  let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
-    username: request.body.username
+    userEmail: userEmail
   }
   response.render("register", templateVars);
 });
@@ -148,6 +162,16 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+//
+const getUsernameById = (userID) => {
+  let user = users[userID];
+  if (!user){
+    return;
+  }
+  return user.email;
+};
+
+
 //check if user email already exists
 const checkUserEmail = (givenEmail) => {
   for(user in users) {
@@ -157,7 +181,6 @@ const checkUserEmail = (givenEmail) => {
   };
   return false;
 };
-
 
 
 //checks for implicit/explicit protocols on input

@@ -5,20 +5,17 @@
 
   <h3>Welcome to TinyApp!</h3>
 
-<% if (username === undefined) { %>
- <!-- login form -->
-  <form method="POST" action="/login" style="display: inline" >
-    <input id="username" type="text" name="username" placeholder="Username" style="width: 150px">
-    <input type="submit" value="Submit">
-  </form>
- <% } %>
-
-<% if (username) { %>
+<% if (userEmail) { %>
+<%= userEmail %>
  <!-- logout form -->
- <%= username %> &nbsp
   <form method="POST" action="/logout" style="display: inline" >
     <input type="submit" value="Logout">
   </form>
+
+<% } else { %>
+
+  <a href="/login">Login</a>
+  <a href="/register">Register</a>
 
 <% } %>
 
