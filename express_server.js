@@ -18,8 +18,17 @@ const urlDatabase = {
 };
 
 const users = {
-
-}
+  "userRandomID": {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk"
+  }
+};
 
 
 app.get("/", (request, response) => {
@@ -106,12 +115,24 @@ app.get("/u/:shortURL", (request, response) => {
 
 })
 
+//registration page with email and password fields
 app.get("/register", (request, response) => {
   let templateVars = {
     username: request.body.username
   }
   response.render("register", templateVars);
 });
+
+app.post("/register", (request, response) => {
+  let newUser = {
+    id: generateRandomString(),
+    email: request.body.email,
+    password: request.body.password,
+  };
+  users[newUser.id] = newUser;
+  response.cookie("user_id", newUser.id);
+  response.redirect("/urls");
+})
 
 //8080
 app.listen(PORT, () => {
