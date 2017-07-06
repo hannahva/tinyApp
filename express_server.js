@@ -101,7 +101,8 @@ app.get("/urls", (request, response) => {
   let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
     urls: urlDatabase,
-    userEmail: userEmail
+    userEmail: userEmail,
+    cookie: request.cookies["user_id"]
   };
   response.render("urls_index", templateVars);
 });
@@ -124,7 +125,8 @@ app.get("/urls/:id", (request, response) => {
   let templateVars = {
     shortUrl: request.params.id,
     urls: urlDatabase,
-    userEmail: userEmail
+    userEmail: userEmail,
+    cookie: request.cookies["user_id"]
   };
   response.render("urls_show", templateVars);
 });
