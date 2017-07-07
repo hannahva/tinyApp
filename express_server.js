@@ -100,9 +100,8 @@ app.get("/urls.json", (request, response) =>{
 app.get("/urls", (request, response) => {
   let userEmail = getUsernameById(request.cookies["user_id"]);
   let templateVars = {
-    urls: urlDatabase,
-    userEmail: userEmail,
-    cookie: request.cookies["user_id"]
+    urls: urlsForUser(request.cookies["user_id"]),
+    userEmail: userEmail
   };
   response.render("urls_index", templateVars);
 });
@@ -200,7 +199,7 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-
+//checks given id against userID in urlDatabase
 const urlsForUser = (id) => {
   const output = {};
   for (url in urlDatabase){
