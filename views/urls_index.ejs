@@ -12,7 +12,6 @@
 
   <% for (var url in urls){ %>
 
-
     <li><%= `${urls[url].longURL} : ${url}` %>&nbsp&nbsp
       <a href="/urls/<%= url %>">Edit</a> <!-- redirects to editing page -->
       <form method="POST" action="/urls/<%= url %>/delete" style="display: inline" > &nbsp&nbsp
@@ -23,7 +22,7 @@
   <% } %>
   &nbsp
 
-  <form action="/urls/new">
+  <form action="/urls/new" method="GET">
     <input type="submit" value="Shorten A New Link!" />
   </form>
 <footer>
