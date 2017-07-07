@@ -11,6 +11,82 @@ app.use(cookieParser());
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+//FUNCTIONS:
+
+//checks given id against userID in urlDatabase
+const urlsForUser = (id) => {
+  const output = {};
+  for (url in urlDatabase){
+      if(urlDatabase[url].userID === id){
+        output[url] = urlDatabase[url];
+      };
+  };
+  return output;
+}
+
+//gets id associated with given email
+const getIdByEmail = (email) => {
+  let id = undefined;
+  for (user in users){
+    if(users[user].email === email){
+      id = user;
+    };
+  };
+  return id;
+}
+
+//
+const getUsernameById = (userID) => {
+  let user = users[userID];
+  if (!user){
+    return;
+  };
+  return user.email;
+};
+
+
+//check if user email already exists
+const checkUserEmail = (givenEmail) => {
+  for(user in users) {
+    if (users[user].email === givenEmail){
+      return true;
+    };
+  };
+  return false;
+};
+
+//check if password matches password linked to that email
+const checkPassword = (givenEmail, givenPW) => {
+  for(user in users){
+    if(users[getIdByEmail(givenEmail)].password === givenPW){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+//checks for implicit/explicit protocols on input
+//and adds if missing
+const addHTTP = (givenURL) => {
+  let newURL = givenURL;
+  if(!/https?: \/\//.test(givenURL)) {
+    if(!/www\./.test(givenURL)){
+      newURL = `www.${newURL}`;
+    }
+    newURL = `https://${newURL}`;
+    };
+  return newURL;
+};
+
+//creates short id's for given urls
+const generateRandomString = () => {
+  return Math.random().toString(36).substr(2, 6);
+};
+
+generateRandomString();
+
+//GLOBAL VARIABLES
 
 const urlDatabase = {
   "b2xVn2": {
@@ -36,6 +112,7 @@ const users = {
   }
 };
 
+//ROUTES
 
 app.get("/", (request, response) => {
   response.end("Hello!");
@@ -65,9 +142,7 @@ app.post("/login", (request, response) => {
   } else {
     response.cookie("user_id", id);
     response.redirect("/");
-  }
-
-
+  };
   response.redirect("/");
 });
 
@@ -199,76 +274,5 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-//checks given id against userID in urlDatabase
-const urlsForUser = (id) => {
-  const output = {};
-  for (url in urlDatabase){
-      if(urlDatabase[url].userID === id){
-        output[url] = urlDatabase[url];
-      };
-  };
-  return output;
-}
 
-//gets id associated with given email
-const getIdByEmail = (email) => {
-  let id = undefined;
-  for (user in users){
-    if(users[user].email === email){
-      id = user;
-    };
-  };
-  return id;
-}
-
-//
-const getUsernameById = (userID) => {
-  let user = users[userID];
-  if (!user){
-    return;
-  };
-  return user.email;
-};
-
-
-//check if user email already exists
-const checkUserEmail = (givenEmail) => {
-  for(user in users) {
-    if (users[user].email === givenEmail){
-      return true;
-    };
-  };
-  return false;
-};
-
-//check if password matches password linked to that email
-const checkPassword = (givenEmail, givenPW) => {
-  for(user in users){
-    if(users[getIdByEmail(givenEmail)].password === givenPW){
-      return true;
-    }
-  }
-  return false;
-}
-
-
-//checks for implicit/explicit protocols on input
-//and adds if missing
-const addHTTP = (givenURL) => {
-  let newURL = givenURL;
-  if(!/https?: \/\//.test(givenURL)) {
-    if(!/www\./.test(givenURL)){
-      newURL = `www.${newURL}`;
-    }
-    newURL = `https://${newURL}`;
-    };
-  return newURL;
-};
-
-//creates short id's for given urls
-const generateRandomString = () => {
-  return Math.random().toString(36).substr(2, 6);
-};
-
-generateRandomString();
 
