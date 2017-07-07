@@ -255,8 +255,14 @@ const checkPassword = (givenEmail, givenPW) => {
 //checks for implicit/explicit protocols on input
 //and adds if missing
 const addHTTP = (givenURL) => {
-  if(givenURL !== /^https?: \/\//) {givenURL = `https://${givenURL}`};
-  return givenURL;
+  let newURL = givenURL;
+  if(!/https?: \/\//.test(givenURL)) {
+    if(!/www\./.test(givenURL)){
+      newURL = `www.${newURL}`;
+    }
+    newURL = `https://${newURL}`;
+    };
+  return newURL;
 };
 
 //creates short id's for given urls
