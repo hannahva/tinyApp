@@ -5,8 +5,11 @@ const PORT = process.env.PORT || 8080; // default port 8080
 //template engine
 app.set("view engine", "ejs");
 
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
+const cookieSession = require("cookie-session");
+app.use(cookieSession({
+  user_id: "session",
+  keys: ["cat", "dog"]
+}));
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -70,7 +73,7 @@ const checkPassword = (givenEmail, givenPW) => {
 //and adds if missing
 const addHTTP = (givenURL) => {
   let newURL = givenURL;
-  if(!/https?: \/\//.test(givenURL)) {
+  if(!/https?:\/\//.test(givenURL)) {
     if(!/www\./.test(givenURL)){
       newURL = `www.${newURL}`;
     }
@@ -114,10 +117,9 @@ const users = {
 
 //ROUTES
 
-
 //
 app.get("/login", (request, response) => {
-  let userEmail = getUsernameById(request.cookies["user_id"]);
+  let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
     userEmail: userEmail
   }
@@ -137,7 +139,7 @@ app.post("/login", (request, response) => {
     response.status(403).send("Sorry, email or password incorrect");
     return;
   } else {
-    response.cookie("user_id", id);
+    request.session.user_id = id;
     response.redirect("/urls");
     return;
   };
@@ -146,14 +148,14 @@ app.post("/login", (request, response) => {
 
 //post request for LOGOUT process
 app.post("/logout", (request, response) => {
-  response.clearCookie("user_id");
+  request.session = null;
   response.redirect("/urls");
 })
 
 // has to be above other urls/... pages to not
 //get treated as /:id or /:shortURL by LocalHost
 app.get("/urls/new", (request, response) => {
-  let userEmail = getUsernameById(request.cookies["user_id"]);
+  let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
     userEmail: userEmail
   };
@@ -171,9 +173,9 @@ app.get("/urls.json", (request, response) =>{
 //list of all shortened and their corresponding long Urls
 //urls_index.ejs - displays link to shorten a url (DEAD)
 app.get("/urls", (request, response) => {
-  let userEmail = getUsernameById(request.cookies["user_id"]);
+  let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
-    urls: urlsForUser(request.cookies["user_id"]),
+    urls: urlsForUser(request.session.user_id),
     userEmail: userEmail
   };
   response.render("urls_index", templateVars);
@@ -182,7 +184,7 @@ app.get("/urls", (request, response) => {
 //post route that removes a URL resource
 //and redirects to modified /urls
 app.post("/urls/:id/delete", (request, response) => {
-  if (urlDatabase[request.params.id].userID === request.cookies["user_id"]){
+  if (urlDatabase[request.params.id].userID === request.session.user_id){
      delete urlDatabase[request.params.id];
      response.redirect("/urls");
   } else {
@@ -193,12 +195,12 @@ app.post("/urls/:id/delete", (request, response) => {
 //specific to unique id, displays that id's
 //short and long URL
 app.get("/urls/:id", (request, response) => {
-  let userEmail = getUsernameById(request.cookies["user_id"]);
+  // let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
     shortUrl: request.params.id,
     urls: urlDatabase,
-    userEmail: userEmail,
-    cookie: request.cookies["user_id"]
+    userEmail: getUsernameById(request.session.user_id),
+    cookie: request.session.user_id
   };
   response.render("urls_show", templateVars);
 });
@@ -207,7 +209,7 @@ app.get("/urls/:id", (request, response) => {
 app.post("/urls/:id", (request, response) => {
     let longURL = addHTTP(request.body.longURL);
     urlDatabase[request.params.id].longURL = longURL;
-    if (urlDatabase[request.params.id].userID === request.cookies["user_id"]){
+    if (urlDatabase[request.params.id].userID === request.session.user_id){
         response.redirect("/urls");
     } else {
       response.status(400).send("You do not have permission to edit that URL.")
@@ -225,7 +227,7 @@ app.post("/urls", (request, response) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = {
     longURL: longURL,
-    userID: request.cookies["user_id"]
+    userID: request.session.user_id
   };
   response.redirect(`/urls/${shortURL}`);
 });
@@ -234,12 +236,11 @@ app.post("/urls", (request, response) => {
 app.get("/u/:shortURL", (request, response) => {
   let longURL = urlDatabase[request.params.shortURL].longURL;
   response.redirect(longURL);
-
 })
 
 //registration page with email and password fields
 app.get("/register", (request, response) => {
-  let userEmail = getUsernameById(request.cookies["user_id"]);
+  let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
     userEmail: userEmail
   }
@@ -260,7 +261,7 @@ app.post("/register", (request, response) => {
     password: bcrypt.hashSync(request.body.password, 10)
   };
   users[newUser.id] = newUser;
-  response.cookie("user_id", newUser.id);
+  request.session.user_id = newUser.id;
   response.redirect("/urls");
   } else {
      response.status(400).send("Both Password and Email field must be filled out");
