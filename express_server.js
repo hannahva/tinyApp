@@ -11,6 +11,8 @@ app.use(cookieParser());
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+const bcrypt = require("bcrypt");
+
 //FUNCTIONS:
 
 //checks given id against userID in urlDatabase
@@ -57,11 +59,9 @@ const checkUserEmail = (givenEmail) => {
 
 //check if password matches password linked to that email
 const checkPassword = (givenEmail, givenPW) => {
-  for(user in users){
-    if(users[getIdByEmail(givenEmail)].password === givenPW){
+  if(bcrypt.compareSync(givenPW, users[getIdByEmail(givenEmail)].password)){
       return true;
     }
-  }
   return false;
 }
 
@@ -103,20 +103,17 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
   },
  "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: "dishwasher-funk"
+    password: bcrypt.hashSync("dishwasher-funk", 10)
   }
 };
 
 //ROUTES
 
-app.get("/", (request, response) => {
-  response.end("Hello!");
-});
 
 //
 app.get("/login", (request, response) => {
@@ -127,7 +124,7 @@ app.get("/login", (request, response) => {
   response.render("login", templateVars);
 });
 
-//post request for LOGIN process
+//checks if email and password entered and correct
 app.post("/login", (request, response) => {
   const email = request.body.email;
   const password = request.body.password;
@@ -141,9 +138,10 @@ app.post("/login", (request, response) => {
     return;
   } else {
     response.cookie("user_id", id);
-    response.redirect("/");
+    response.redirect("/urls");
+    return;
   };
-  response.redirect("/");
+  response.redirect("/urls");
 });
 
 //post request for LOGOUT process
@@ -259,7 +257,7 @@ app.post("/register", (request, response) => {
   let newUser = {
     id: generateRandomString(),
     email: request.body.email,
-    password: request.body.password,
+    password: bcrypt.hashSync(request.body.password, 10)
   };
   users[newUser.id] = newUser;
   response.cookie("user_id", newUser.id);
@@ -267,6 +265,7 @@ app.post("/register", (request, response) => {
   } else {
      response.status(400).send("Both Password and Email field must be filled out");
   };
+
 });
 
 //8080
