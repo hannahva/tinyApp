@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 8080;
 //template engine
 app.set("view engine", "ejs");
 
+app.use(express.static(__dirname + '/styles'));
+
 const cookieSession = require("cookie-session");
 app.use(cookieSession({
   user_id: "session",
@@ -17,33 +19,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const bcrypt = require("bcrypt");
 
-//GLOBAL VARIABLES
+const urlDatabase = {};
 
-const urlDatabase = {
-  "b2xVn2": {
-    longURL: "http://www.lighthouselabs.ca",
-    userID: "userRandomID"
-  },
-  "9sm5xK": {
-    longURL: "http://www.google.com",
-    userID: "user2RandomID"
-  }
-};
 
-const users = {
-  "userRandomID": {
-    id: "userRandomID",
-    email: "user@example.com",
-    password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
-  },
-  "user2RandomID": {
-    id: "user2RandomID",
-    email: "user2@example.com",
-    password: bcrypt.hashSync("dishwasher-funk", 10)
-  }
-};
+const users = {};
 
-//FUNCTIONS:
+
+/////////////
+//FUNCTIONS//
+/////////////
 
 //checks given id against userID in urlDatabase
 const urlsForUser = (id) => {
@@ -56,7 +40,6 @@ const urlsForUser = (id) => {
   return output;
 };
 
-//gets id associated with given email
 const getIdByEmail = (email) => {
   let id = undefined;
   for (user in users){
@@ -67,7 +50,7 @@ const getIdByEmail = (email) => {
   return id;
 };
 
-//
+
 const getUsernameById = (userID) => {
   let user = users[userID];
   if (!user){
@@ -87,7 +70,7 @@ const checkUserEmail = (givenEmail) => {
   return false;
 };
 
-//check if password matches password linked to that email
+
 const checkPassword = (givenEmail, givenPW) => {
   if(bcrypt.compareSync(givenPW, users[getIdByEmail(givenEmail)].password)){
     return true;
@@ -117,8 +100,10 @@ const generateRandomString = () => {
 generateRandomString();
 
 
+//////////
+//ROUTES//
+//////////
 
-//ROUTES
 app.get("/", (request, response) => {
   if(!request.session.user_id){
     response.redirect("/login");
@@ -127,7 +112,7 @@ app.get("/", (request, response) => {
   response.redirect("/urls");
 
 });
-//
+
 app.get("/login", (request, response) => {
   let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
@@ -159,10 +144,10 @@ app.post("/login", (request, response) => {
   }
 });
 
-//post request for LOGOUT process
+
 app.post("/logout", (request, response) => {
   request.session = null;
-  response.redirect("/urls");
+  response.redirect("/login");
 });
 
 // has to be above other urls/... pages to not
@@ -192,7 +177,7 @@ app.get("/urls", (request, response) => {
     userEmail: userEmail
   };
   if(!request.session.user_id){
-    response.status(401).send("Please login to continue");
+    response.redirect("/login");
     return;
   } else {
     response.render("urls_index", templateVars);
@@ -213,7 +198,6 @@ app.post("/urls/:id/delete", (request, response) => {
 //specific to unique id, displays that id's
 //short and long URL
 app.get("/urls/:id", (request, response) => {
-  // let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
     shortUrl: request.params.id,
     urls: urlDatabase,
@@ -239,10 +223,6 @@ app.post("/urls/:id", (request, response) => {
   }
 });
 
-app.get("/hello", (request, response) => {
-  response.end("<html><body>Hello <b>World</b></body></html>\n");
-});
-
 //after creation of shortURL, stores info
 //and redirects to page with shortURL in address.
 app.post("/urls", (request, response) => {
@@ -255,7 +235,7 @@ app.post("/urls", (request, response) => {
   response.redirect(`/urls/${shortURL}`);
 });
 
-//shortened URL will redirect to its corresponding longURL
+
 app.get("/u/:shortURL", (request, response) => {
   if(!urlDatabase[request.params.shortURL]){
     response.status(400).send("No URL exists for this ID");
@@ -266,7 +246,6 @@ app.get("/u/:shortURL", (request, response) => {
   }
 });
 
-//registration page with email and password fields
 app.get("/register", (request, response) => {
   let userEmail = getUsernameById(request.session.user_id);
   let templateVars = {
@@ -301,7 +280,7 @@ app.post("/register", (request, response) => {
 
 });
 
-//8080
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });

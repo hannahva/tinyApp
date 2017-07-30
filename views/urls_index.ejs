@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
   <title>TinyApp</title>
+  <link rel="stylesheet" href="/urls-index.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
 </head>
 <body>
   <header>
@@ -12,15 +14,15 @@
 
   <% for (var url in urls){ %>
 
-    <li><%= `${urls[url].longURL} : ${url}` %>&nbsp&nbsp
+    <li><%= `${urls[url].longURL} : ${url}` %>
       <a href="/urls/<%= url %>">Edit</a> <!-- redirects to editing page -->
-      <form method="POST" action="/urls/<%= url %>/delete" style="display: inline" > &nbsp&nbsp
+      <form method="POST" action="/urls/<%= url %>/delete">
         <button type="submit">Delete This URL</button>
       </form>
     </li>
 
   <% } %>
-  &nbsp
+
 
   <form action="/urls/new" method="GET">
     <input type="submit" value="Shorten A New Link!" />

@@ -3,6 +3,8 @@
   <html>
   <head>
     <title>TinyApp</title>
+    <link rel="stylesheet" href="/login.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
   </head>
   <body>
     <h3>TinyApp</h3>
@@ -11,18 +13,22 @@
     <% if (userEmail) { %>
     <%= userEmail %>
  <!-- logout form -->
-   <form method="POST" action="/logout" style="display: inline" >
-     <input type="submit" value="Logout">
-   </form>
+  <span class="logout">
+     <form method="POST" action="/logout">
+       <input type="submit" value="Logout">
+     </form>
+  </span>
 
 
   <% } else { %>
   <!-- login form -->
-   <form method="POST" action="/login" style="display: inline" >
-     <input id="email" type="email" name="email" placeholder="Enter Email" style="width: 300px">
-     <input id="password" type="password" name="password" placeholder="Enter Password" style="width: 300px">
-     <input type="submit" value="Login">
-   </form>
+  <span class="login">
+     <form method="POST" action="/login">
+       <input id="email" type="email" name="email" placeholder="Enter Email">
+       <input id="password" type="password" name="password" placeholder="Enter Password">
+       <input type="submit" value="Login">
+     </form>
+  </span>
   <% } %>
 
   </body>

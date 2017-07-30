@@ -1,0 +1,84 @@
+body {
+    background-color:#d6efec;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    margin: 20vw;
+    margin-top: 0;
+    text-align: center;
+}
+
+body h3 {
+    color:#f78360;
+    display: inline-block;
+    font-size: 10vh;
+    margin-bottom: 0;
+    margin-top: 5vh;
+}
+
+body h5 {
+    color:#f78360;
+    display: inline-block;
+    font-size: 7vh;
+    font-weight: 300;
+    margin-left: 10vw;
+    margin-top: 0;
+}
+
+#email {
+    border: 0.1vw solid #f78360;
+    border-radius: 0.5vw;
+    color: #da6e4e;
+    display: block;
+    height: 10vh;
+    margin-bottom: 3vh;
+    padding-top: 2vh;
+    text-align:center;
+    width: 60vw;
+}
+
+#email::placeholder{
+    color: #fcc4b3;
+    font-size: 6vh;
+    font-style:italic;
+    font-weight: 100;
+    text-align: center;
+}
+
+#password {
+    border: 0.1vw solid #f78360;
+    border-radius: 0.5vw;
+    color: #da6e4e;
+    display: block;
+    height: 10vh;
+    margin-bottom: 3vh;
+    padding-top: 2vh;
+    text-align:center;
+    width: 60vw;
+}
+
+#password::placeholder{
+    color:#fcc4b3;
+    font-size: 6vh;
+    font-style:italic;
+    font-weight: 100;
+    text-align: center;
+}
+
+input[type="submit"] {
+     background-color:#ffeee9;
+     border:1px solid #f78360;
+     border-radius: 7px;
+     color:#f78360;
+     float: center;
+     font-size: 6vh;
+     font-weight: 300;
+     height: 10vh;
+     margin-top: 2vh;
+     width: 25vw;
+ }
+
+ input[type="submit"]:hover {
+     background-color:#f78360;
+     border:1px solid #ffeee9;
+     color:#ffeee9;
+ }

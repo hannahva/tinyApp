@@ -2,18 +2,17 @@
 
 <!DOCTYPE html>
 
-
   <h3>Welcome to TinyApp!</h3>
 
 <% if (userEmail) { %>
 <%= userEmail %>
  <!-- logout form -->
-  <form method="POST" action="/logout" style="display: inline" >
+  <form method="POST" action="/logout">
     <input type="submit" value="Logout">
   </form>
 
 <% } else { %>
-<p style="text-align: right;">
+<p class="links">
   <a href="/login">Login</a>
   <a href="/register">Register</a>
 </p>
