@@ -1,12 +1,19 @@
 # TinyApp Project
 
-TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs.
+TinyApp is a simple, multi-page web application that allows users to easily transform long URLs into shortened proxies. Built with ES6, Node.js, Express.js, EJS template engine, HTML, and CSS. Made during week 2 of the Lighthouse Labs 8-week Web Development Bootcamp.
 
-## Final Product
+## Full View
 
-!["screenshot of registration page"](https://github.com/hannahva/tinyApp/blob/master/docs/register.png?raw=true)
-!["screenshot of shortened URL page"](https://github.com/hannahva/tinyApp/blob/master/docs/urls-id.png?raw=true)
-!["screenshot of new-url page"](https://github.com/hannahva/tinyApp/blob/master/docs/urls-new.png?raw=true)
+![""](https://github.com/hannahva/tinyApp/blob/master/docs/full%20register.png?raw=true)
+![""](https://github.com/hannahva/tinyApp/blob/master/docs/full%20login.png?raw=true)
+![""](https://github.com/hannahva/tinyApp/blob/master/docs/full%20shorten%20link.png?raw=true)
+![""](https://github.com/hannahva/tinyApp/blob/master/docs/full%20edit%20page.png?raw=true)
+![""](https://github.com/hannahva/tinyApp/blob/master/docs/full%20list%20of%20links.png?raw=true)
+## Resonsively Sized
+
+Login page | Registration page
+:---------:|:-----------------:
+![](https://github.com/hannahva/tinyApp/blob/master/docs/small%20login%20hover.png?raw=true) | ![](https://github.com/hannahva/tinyApp/blob/master/docs/small%20register.png?raw=true)
 
 ## Dependencies
 
