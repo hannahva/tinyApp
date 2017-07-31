@@ -15,13 +15,14 @@ body header {
 body header h3 {
   color: #f78360;
   float: left;
-  font-size: 10vh;
+  font-size: 8vh;
   margin-bottom: 0;
 }
 
 body header p.links {
   color: #fcc4b3;
   float: right;
+  font-size: 3vh;
   text-decoration: none;
 }
 
