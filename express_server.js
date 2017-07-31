@@ -106,7 +106,7 @@ generateRandomString();
 
 app.get("/", (request, response) => {
   if(!request.session.user_id){
-    response.redirect("/login");
+    response.redirect("/register");
     return;
   }
   response.redirect("/urls");

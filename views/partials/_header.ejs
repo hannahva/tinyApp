@@ -2,10 +2,10 @@
 
 <!DOCTYPE html>
 
-  <h3>Welcome to TinyApp!</h3>
+  <a id="greeting" href="/urls">Welcome to TinyApp!</a>
 
 <% if (userEmail) { %>
-<%= userEmail %>
+<h6><%= userEmail %></h6>
  <!-- logout form -->
   <form method="POST" action="/logout">
     <input type="submit" value="Logout">

@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
   <title>TinyApp</title>
+      <link rel="stylesheet" type="text/css" href="/urls-new.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css">
 </head>
   <body>
     <header>
@@ -13,7 +15,7 @@
 
        <h2><%= "shortUrl" + ": " + shortUrl %></h2>
          <form action="" method="POST">
-            <input id="longURL" type="text" name="longURL" value="<%= urls[shortUrl].longURL %>" style="width: 300px">
+            <input id="longURL" type="text" name="longURL" value="<%= urls[shortUrl].longURL %>">
             <input type="submit" value="Update">
          </form>
      <% } else { %>

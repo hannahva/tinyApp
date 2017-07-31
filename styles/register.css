@@ -12,11 +12,16 @@ body header {
   text-align: left;
 }
 
-body header h3 {
+#greeting {
   color: #f78360;
   float: left;
   font-size: 8vh;
   margin-bottom: 0;
+  text-decoration: none;
+}
+
+#greeting:hover {
+  color: #fcc4b3;
 }
 
 body header p.links {
@@ -56,6 +61,7 @@ span.register-form {
 #email::placeholder{
   color: #fcc4b3;
   font-style: italic;
+  font-weight: 100;
   text-align: center;
 }
 
@@ -75,6 +81,7 @@ span.register-form {
 #password::placeholder{
   color: #fcc4b3;
   font-style: italic;
+  font-weight: 100;
   text-align: center;
 }
 
