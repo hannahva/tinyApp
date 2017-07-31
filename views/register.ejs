@@ -8,20 +8,19 @@
 <body>
   <header>
     <% include  ./partials/_header %>
-    <h5>Register Below to Start Shortening Urls</h5>
   </header>
-   <ul>
+  <span class="register-form">
     <form method="POST" action="/register">
       <p>
-        <h6><label for="email">Enter Email</label></h6>
-        <input id="email" type="email" name="email" placeholder="Email" style="width: 300px">
+        <h6><label for="email">Register Below to Start Shortening Urls</label></h6>
+        <input id="email" type="email" name="email" placeholder="Email">
       </p>
       <p>
-        <h6><label for="password">Enter Password</label></h6>
-        <input id="password" type="password" name="password" placeholder="Password" style="width: 300px">
+        <input id="password" type="password" name="password" placeholder="Password">
         <input type="submit" value="Submit">
       </p>
     </form>
+  </span>
 
 
 </body>

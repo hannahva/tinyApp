@@ -29,9 +29,10 @@ body h5 {
     border-radius: 0.5vw;
     color: #da6e4e;
     display: block;
+    font-size: 6vh;
     height: 10vh;
     margin-bottom: 3vh;
-    padding-top: 2vh;
+    padding-top: 1vh;
     text-align:center;
     width: 60vw;
 }
@@ -49,9 +50,10 @@ body h5 {
     border-radius: 0.5vw;
     color: #da6e4e;
     display: block;
+    font-size: 6vh;
     height: 10vh;
     margin-bottom: 3vh;
-    padding-top: 2vh;
+    padding-top: 1vh;
     text-align:center;
     width: 60vw;
 }
@@ -65,20 +67,20 @@ body h5 {
 }
 
 input[type="submit"] {
-     background-color:#ffeee9;
-     border:1px solid #f78360;
-     border-radius: 7px;
-     color:#f78360;
-     float: center;
-     font-size: 6vh;
-     font-weight: 300;
-     height: 10vh;
-     margin-top: 2vh;
-     width: 25vw;
- }
+    background-color:#ffeee9;
+    border: 0.1vw solid #f78360;
+    border-radius: 0.5vw;
+    color:#f78360;
+    float: center;
+    font-size: 6vh;
+    font-weight: 300;
+    height: 10vh;
+    margin-top: 2vh;
+    width: 25vw;
+}
 
- input[type="submit"]:hover {
-     background-color:#f78360;
-     border:1px solid #ffeee9;
-     color:#ffeee9;
- }
+input[type="submit"]:hover {
+    background-color:#f78360;
+    border: 0.1vw solid #ffeee9;
+    color:#ffeee9;
+}
